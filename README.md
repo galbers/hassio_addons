@@ -7,7 +7,7 @@
 
 Add the repository URL under **Supervisor → Add-on store → ⋮ → Manage add-on repositories**:
 
-    https://github.com/thejeffreystone/hassio_addons
+    https://github.com/galbers/hassio_addons
 
 The repository includes two add-ons:
 
