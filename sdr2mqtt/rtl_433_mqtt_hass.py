@@ -566,6 +566,17 @@ mappings = {
             "value_template": "{{ value|int }}"
         }
     },
+    "co2_ppm": {
+        "device_type": "sensor",
+        "object_suffix": "CO2",
+        "config": {
+            "device_class": "CO2",
+            "state_class":"measurement",
+            "name": "CO2",
+            "unit_of_measurement": "ppm",
+            "value_template": "{{ value|int }}"
+        }
+    },
     "pm2_5_ug_m3": {
         "device_type": "sensor",
         "object_suffix": "PM25",
@@ -605,7 +616,29 @@ mappings = {
         "config": {
             "device_class": "PM10",
             "state_class":"measurement",
-            "name": "PM 2.5",
+            "name": "Estimated PM 10",
+            "unit_of_measurement": "µg/m³",
+            "value_template": "{{ value|int }}"
+        }
+    },
+    "pm10_ug_m3": {
+        "device_type": "sensor",
+        "object_suffix": "PM10",
+        "config": {
+            "device_class": "PM10",
+            "state_class":"measurement",
+            "name": "PM 10",
+            "unit_of_measurement": "µg/m³",
+            "value_template": "{{ value|int }}"
+        }
+    },
+    "estimated_pm10_ug_m3": {
+        "device_type": "sensor",
+        "object_suffix": "PM10",
+        "config": {
+            "device_class": "PM10",
+            "state_class":"measurement",
+            "name": "Estimated PM 10",
             "unit_of_measurement": "µg/m³",
             "value_template": "{{ value|int }}"
         }
