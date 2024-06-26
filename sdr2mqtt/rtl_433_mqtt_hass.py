@@ -570,9 +570,9 @@ mappings = {
         "device_type": "sensor",
         "object_suffix": "CO2",
         "config": {
-            "device_class": "CO2",
+            "device_class": "carbon_dioxide",
             "state_class":"measurement",
-            "name": "CO2",
+            "name": "Carbon Dioxide",
             "unit_of_measurement": "ppm",
             "value_template": "{{ value|int }}"
         }
@@ -645,13 +645,12 @@ mappings = {
     },
     "ext_power": {
         "device_type": "binary_sensor",
-        "object_suffix": "PLUG",
+        "object_suffix": "plug",
         "config": {
-            "device_class": "BinarySensorDeviceClass",
-            "state_class":"PLUG",
-            "name": "External Power",
-            "unit_of_measurement": "enabled",
-            "value_template": "{{ value|int }}"
+            "device_class": "plug",
+            "force_update": "true",
+            "payload_on": "1",
+            "payload_off": "0"
         }
     },
 }
