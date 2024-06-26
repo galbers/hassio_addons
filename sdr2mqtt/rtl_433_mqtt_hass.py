@@ -605,7 +605,7 @@ mappings = {
         "config": {
             "device_class": "PM10",
             "state_class":"measurement",
-            "name": "PM 2.5",
+            "name": "PM 10",
             "unit_of_measurement": "µg/m³",
             "value_template": "{{ value|int }}"
         }
@@ -640,6 +640,17 @@ mappings = {
             "state_class":"measurement",
             "name": "Estimated PM 10",
             "unit_of_measurement": "µg/m³",
+            "value_template": "{{ value|int }}"
+        }
+    },
+    "ext_power": {
+        "device_type": "binary_sensor",
+        "object_suffix": "PLUG",
+        "config": {
+            "device_class": "BinarySensorDeviceClass",
+            "state_class":"PLUG",
+            "name": "External Power",
+            "unit_of_measurement": "enabled",
             "value_template": "{{ value|int }}"
         }
     },
