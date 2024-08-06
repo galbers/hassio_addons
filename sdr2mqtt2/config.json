@@ -1,0 +1,52 @@
+{
+  "name": "SDR to Home Assistant instance 2",
+  "version": "0.1.28",
+  "slug": "sdr2mqtt",
+  "description": "SDR/RTL Sensors to Home Assistant via MQTT with Autodiscovery",
+  "url": "https://github.com/galbers/hassio_addons",
+
+  "startup": "services",
+  "arch": ["aarch64", "amd64", "armhf", "armv7", "i386"],
+  "usb": true,
+  "options":
+    {
+    "mqtt_host": "192.168.1.3",
+    "mqtt_port": 1883,
+    "mqtt_user": "mqtt_user",
+    "mqtt_password": "pass",
+    "mqtt_topic": "rtl_433",
+    "mqtt_retain" : "true",
+    "rtl_sdr_serial_num" : "433",
+    "frequency" : "-f 433.92M",
+    "protocol" : "-R 20 -R 112 -R 113 -R 11 -R 40 -R 41 -R 55 -R 74 -R 142 -R 78 -R 173 -R 219",
+    "whitelist_enable": "false",
+    "whitelist": "",
+    "expire_after": 0,
+    "units": "si",
+    "discovery_prefix": "homeassistant",
+    "discovery_interval": 600,
+    "auto_discovery": "true",
+    "debug": "false"
+  },
+  "schema":
+    {
+    "mqtt_host": "str",
+    "mqtt_port": "int",
+    "mqtt_user": "str",
+    "mqtt_password": "str",
+    "mqtt_topic": "str",
+    "mqtt_retain" : "str",
+    "rtl_sdr_serial_num" : "str",
+    "frequency" : "str",
+    "protocol": "str",
+    "whitelist_enable": "bool",
+    "whitelist": "str",
+    "expire_after": "int",
+    "units": "str",
+    "discovery_prefix": "str",
+    "discovery_interval": "int",
+    "auto_discovery": "bool",
+    "debug": "bool"
+   }
+}
+
