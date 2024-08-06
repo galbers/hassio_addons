@@ -37,4 +37,4 @@ RUN apk add --no-cache rtl-sdr rtl_433 libusb mosquitto-clients python3 py3-paho
 # Execute entry script
 # ENTRYPOINT [ "/scripts/entry.sh" ]
 # Shell form entry script
-ENTRYPOINT [ "bash", "-c", "/scripts/entry.sh", "${rtl_sdr -d 9999 |& grep 'SN: 433' |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//'}" ].
+ENTRYPOINT [ "bash", "-c", "/scripts/entry.sh ${rtl_sdr -d 9999 |& grep 'SN: 433' |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//'}" ].
