@@ -32,7 +32,11 @@ bashio::log.info "========================================="
 RTL_SDR_GET_DEVICES="$(rtl_sdr -d 9999)"
 bashio::log.info "RTL-SDR's found =" $RTL_SDR_GET_DEVICES
 
+bashio::log.info "=============GREP RESULT================="
+
 RTL_SDR_GREP_TARGET="$(grep "SN: 433" $RTL_SDR_GET_DEVICES)"
+
+bashio::log.info "=============PRINT RESULT================="
 bashio::log.info "RTL-SDR find target =" $RTL_SDR_GREP_TARGET
 
 # RTL_SDR_FIND_INDEX="$(grep -o '^[^:]*' $RTL_SDR_GREP_TARGET)"
