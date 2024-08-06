@@ -31,17 +31,17 @@ export LD_LIBRARY_PATH=/usr/local/lib64
 RTL_SDR_GET_DEVICES="$(rtl_sdr -d 9999)"
 bashio::log.info "RTL-SDR's found =" $RTL_SDR_GET_DEVICES
 
-RTL_SDR_GREP_TARGET="$(grep "SN: 433" $TEST_CMD)"
-bashio::log.info "RTL-SDR find target =" $RTL_SDR_GREP_TARGET
+# RTL_SDR_GREP_TARGET="$(grep "SN: 433" $TEST_CMD)"
+# bashio::log.info "RTL-SDR find target =" $RTL_SDR_GREP_TARGET
 
-RTL_SDR_FIND_INDEX="$(grep -o '^[^:]*' $RTL_SDR_GREP_TARGET)"
-bashio::log.info "RTL-SDR get index =" $RTL_SDR_FIND_INDEX
+# RTL_SDR_FIND_INDEX="$(grep -o '^[^:]*' $RTL_SDR_GREP_TARGET)"
+# bashio::log.info "RTL-SDR get index =" $RTL_SDR_FIND_INDEX
 
-RTL_SDR_PARSE_ONLY_NUM="$(sed 's/^[ \t]*//;s/[ \t]*$//' $RTL_SDR_FIND_INDEX)"
-bashio::log.info "RTL-SDR clean index =" $RTL_SDR_PARSE_ONLY_NUM
+# RTL_SDR_PARSE_ONLY_NUM="$(sed 's/^[ \t]*//;s/[ \t]*$//' $RTL_SDR_FIND_INDEX)"
+# bashio::log.info "RTL-SDR clean index =" $RTL_SDR_PARSE_ONLY_NUM
 
 # DEVICE_INDEX="$(rtl_sdr -d 9999 |& grep "SN: ${RTL_SDR_SERIAL_NUM}" |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//')"
-bashio::log.info "RTL-SDR complete command =" $RTL_SDR_PARSE_ONLY_NUM
+# bashio::log.info "RTL-SDR complete command =" $DEVICE_INDEX
 
 # Start the listener and enter an endless loop
 bashio::log.blue "::::::::Starting RTL_433 with parameters::::::::"
