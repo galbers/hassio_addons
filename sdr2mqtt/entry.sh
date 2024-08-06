@@ -36,10 +36,10 @@ bashio::log.info "serial num" = $RTL_SDR_SERIAL_NUM
 bashio::log.info "device index" = $(rtl_sdr -d 9999 |& grep "SN: $RTL_SDR_SERIAL_NUM" |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//')
 
 bashio::log.info "=========GET INDEX========="
-RTL_INDEX=$(rtl_sdr -d 9999 |& grep "SN: $RTL_SDR_SERIAL_NUM" |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//')
+# RTL_INDEX=$(rtl_sdr -d 9999 |& grep "SN: $RTL_SDR_SERIAL_NUM" |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//')
 
 bashio::log.info "=========PRINT INDEX========="
-bashio::log.info "RTL_INDEX =" $RTL_INDEX
+# bashio::log.info "RTL_INDEX =" $RTL_INDEX
 # bashio::log.info "RTL_INDEX =" rtl_sdr -d 9999 |& grep "SN: 433" |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//'
 
 # bashio::log.info "RTL-SDR's found =" $RTL_SDR_GET_DEVICES
@@ -90,4 +90,4 @@ else
       bashio::log.blue "Using RTL-SDR Device with serial number \"$RTL_SDR_SERIAL_NUM\" at index $DEVICE_INDEX"
 fi
 
-rtl_433 $FREQUENCY $PROTOCOL -C $UNITS  -F mqtt://$MQTT_HOST:$MQTT_PORT,user=$MQTT_USERNAME,pass=$MQTT_PASSWORD,retain=$MQTT_RETAIN,events=$MQTT_TOPIC/events,states=$MQTT_TOPIC/states,devices=$MQTT_TOPIC[/model][/id][/channel:A]  -M time:tz:local -M protocol -M level -d $DEVICE_INDEX | /scripts/rtl_433_mqtt_hass.py
+rtl_433 $FREQUENCY $PROTOCOL -C $UNITS  -F mqtt://$MQTT_HOST:$MQTT_PORT,user=$MQTT_USERNAME,pass=$MQTT_PASSWORD,retain=$MQTT_RETAIN,events=$MQTT_TOPIC/events,states=$MQTT_TOPIC/states,devices=$MQTT_TOPIC[/model][/id][/channel:A]  -M time:tz:local -M protocol -M level -d $(rtl_sdr -d 9999 |& grep "SN: $RTL_SDR_SERIAL_NUM" |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//') | /scripts/rtl_433_mqtt_hass.py
