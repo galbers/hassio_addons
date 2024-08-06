@@ -52,9 +52,9 @@ DEVICE_INDEX="$(rtl_sdr -d 9999 |& grep "SN: ${RTL_SDR_SERIAL_NUM}" |& grep -o '
 # Check if device is found
 if [ -z "$DEVICE_INDEX" ]
 then
-      echo "Matching RTL-SDR Device with serial number \"$RTL_SDR_SERIAL_NUM\" not found"
+      bashio::log.red "Matching RTL-SDR Device with serial number \"$RTL_SDR_SERIAL_NUM\" not found"
 else
-      echo "Using RTL-SDR Device with serial number \"$RTL_SDR_SERIAL_NUM\" at index $DEVICE_INDEX"
+      bashio::log.blue "Using RTL-SDR Device with serial number \"$RTL_SDR_SERIAL_NUM\" at index $DEVICE_INDEX"
 fi
 
 rtl_433 $FREQUENCY $PROTOCOL -C $UNITS  -F mqtt://$MQTT_HOST:$MQTT_PORT,user=$MQTT_USERNAME,pass=$MQTT_PASSWORD,retain=$MQTT_RETAIN,events=$MQTT_TOPIC/events,states=$MQTT_TOPIC/states,devices=$MQTT_TOPIC[/model][/id][/channel:A]  -M time:tz:local -M protocol -M level -d $DEVICE_INDEX | /scripts/rtl_433_mqtt_hass.py
