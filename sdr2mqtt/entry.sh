@@ -30,7 +30,7 @@ export LD_LIBRARY_PATH=/usr/local/lib64
 
 bashio::log.info "========================================="
 RTL_SDR_GET_DEVICES="$(rtl_sdr -d 9999)"
-bashio::log.info "RTL-SDR's found =" $RTL_SDR_GET_DEVICES
+# bashio::log.info "RTL-SDR's found =" $RTL_SDR_GET_DEVICES
 
 bashio::log.info "=============GREP RESULT================="
 
