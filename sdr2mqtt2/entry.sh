@@ -18,6 +18,7 @@ WHITELIST="$(bashio::config 'whitelist')"
 AUTO_DISCOVERY="$(bashio::config 'auto_discovery')"
 DEBUG="$(bashio::config 'debug')"
 EXPIRE_AFTER="$(bashio::config 'expire_after')"
+DEVICE_INDEX="$(rtl_sdr -d 9999 |& grep "SN: ${RTL_SDR_SERIAL_NUM}" |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//')"
 
 # Exit immediately if a command exits with a non-zero status:
 set -e
@@ -35,6 +36,7 @@ bashio::log.info "MQTT Password =" $(echo $MQTT_PASSWORD | sha256sum | cut -f1 -
 bashio::log.info "MQTT Topic =" $MQTT_TOPIC
 bashio::log.info "MQTT Retain =" $MQTT_RETAIN
 bashio::log.info "RTL-SDR Device Serial Number =" $RTL_SDR_SERIAL_NUM
+bashio::log.info "RTL-SDR Device Index =" $DEVICE_INDEX
 bashio::log.info "PROTOCOL =" $PROTOCOL
 bashio::log.info "FREQUENCY =" $FREQUENCY
 bashio::log.info "Whitelist Enabled =" $WHITELIST_ENABLE
@@ -46,8 +48,6 @@ bashio::log.info "DISCOVERY_INTERVAL =" $DISCOVERY_INTERVAL
 bashio::log.info "AUTO_DISCOVERY =" $AUTO_DISCOVERY
 bashio::log.info "DEBUG =" $DEBUG
 bashio::log.blue "::::::::rtl_433 running output::::::::"
-
-DEVICE_INDEX="$(rtl_sdr -d 9999 |& grep "SN: ${RTL_SDR_SERIAL_NUM}" |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//')"
 
 # Check if device is found
 if [ -z "$DEVICE_INDEX" ]
