@@ -18,7 +18,8 @@ WHITELIST="$(bashio::config 'whitelist')"
 AUTO_DISCOVERY="$(bashio::config 'auto_discovery')"
 DEBUG="$(bashio::config 'debug')"
 EXPIRE_AFTER="$(bashio::config 'expire_after')"
-DEVICE_INDEX="$(rtl_sdr -d 9999 |& grep "SN: ${RTL_SDR_SERIAL_NUM}" |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//')"
+
+DEVICE_INDEX=1
 
 # Exit immediately if a command exits with a non-zero status:
 set -e
@@ -36,7 +37,7 @@ bashio::log.info "MQTT Password =" $(echo $MQTT_PASSWORD | sha256sum | cut -f1 -
 bashio::log.info "MQTT Topic =" $MQTT_TOPIC
 bashio::log.info "MQTT Retain =" $MQTT_RETAIN
 bashio::log.info "RTL-SDR Device Serial Number =" $RTL_SDR_SERIAL_NUM
-bashio::log.info "RTL-SDR Device Index =" $DEVICE_INDEX
+bashio::log.info "RTL-SDR Device Index =" $(rtl_sdr -d 9999 |& grep "SN: $RTL_SDR_SERIAL_NUM" |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//')
 bashio::log.info "PROTOCOL =" $PROTOCOL
 bashio::log.info "FREQUENCY =" $FREQUENCY
 bashio::log.info "Whitelist Enabled =" $WHITELIST_ENABLE
@@ -57,4 +58,4 @@ else
       bashio::log.blue "Using RTL-SDR Device with serial number \"$RTL_SDR_SERIAL_NUM\" at index $DEVICE_INDEX"
 fi
 
-rtl_433 $FREQUENCY $PROTOCOL -C $UNITS  -F mqtt://$MQTT_HOST:$MQTT_PORT,user=$MQTT_USERNAME,pass=$MQTT_PASSWORD,retain=$MQTT_RETAIN,events=$MQTT_TOPIC/events,states=$MQTT_TOPIC/states,devices=$MQTT_TOPIC[/model][/id][/channel:A]  -M time:tz:local -M protocol -M level -d $DEVICE_INDEX | /scripts/rtl_433_mqtt_hass.py
+rtl_433 $FREQUENCY $PROTOCOL -C $UNITS  -F mqtt://$MQTT_HOST:$MQTT_PORT,user=$MQTT_USERNAME,pass=$MQTT_PASSWORD,retain=$MQTT_RETAIN,events=$MQTT_TOPIC/events,states=$MQTT_TOPIC/states,devices=$MQTT_TOPIC[/model][/id][/channel:A]  -M time:tz:local -M protocol -M level -d $(rtl_sdr -d 9999 |& grep "SN: $RTL_SDR_SERIAL_NUM" |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//') | /scripts/rtl_433_mqtt_hass.py

@@ -22,7 +22,7 @@ EXPIRE_AFTER="$(bashio::config 'expire_after')"
 DEVICE_INDEX=0
 
 # Exit immediately if a command exits with a non-zero status:
-# set -e
+set -e
 
 export LANG=C
 PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
