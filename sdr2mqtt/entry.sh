@@ -35,7 +35,7 @@ bashio::log.info "========================================="
 
 bashio::log.info "=========GET INDEX========="
 # bashio::log.info "RTL_INDEX =" $RTL_INDEX
-bashio::log.info "RTL_INDEX =" rtl_sdr -d 9999 |& grep "SN: ${RTL_SDR_SERIAL_NUM}" |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//'
+bashio::log.info "RTL_INDEX =" rtl_sdr -d 9999 |& grep "SN: 433" |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//'
 
 # bashio::log.info "RTL-SDR's found =" $RTL_SDR_GET_DEVICES
 
