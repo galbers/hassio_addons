@@ -28,38 +28,6 @@ export LANG=C
 PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
 export LD_LIBRARY_PATH=/usr/local/lib64
 
-bashio::log.info "========================================="
-
-# rtl_sdr -d 9999 |& grep "SN: ${RTL_SDR_SERIAL_NUM}" |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//'
-# RTL_INDEX=`rtl_sdr -d 9999 |& grep "SN: ${RTL_SDR_SERIAL_NUM}" |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//'`
-bashio::log.info "serial num" = $RTL_SDR_SERIAL_NUM
-bashio::log.info "device index" = $(rtl_sdr -d 9999 |& grep "SN: $RTL_SDR_SERIAL_NUM" |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//')
-
-bashio::log.info "=========GET INDEX========="
-# RTL_INDEX=$(rtl_sdr -d 9999 |& grep "SN: $RTL_SDR_SERIAL_NUM" |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//')
-
-bashio::log.info "=========PRINT INDEX========="
-# bashio::log.info "RTL_INDEX =" $RTL_INDEX
-# bashio::log.info "RTL_INDEX =" rtl_sdr -d 9999 |& grep "SN: 433" |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//'
-
-# bashio::log.info "RTL-SDR's found =" $RTL_SDR_GET_DEVICES
-
-bashio::log.info "=============GREP RESULT================="
-
-# RTL_SDR_GREP_TARGET="$(grep "SN: 433" $RTL_SDR_GET_DEVICES)"
-
-bashio::log.info "=============PRINT RESULT================="
-# bashio::log.info "RTL-SDR find target =" $RTL_SDR_GREP_TARGET
-
-# RTL_SDR_FIND_INDEX="$(grep -o '^[^:]*' $RTL_SDR_GREP_TARGET)"
-# bashio::log.info "RTL-SDR get index =" $RTL_SDR_FIND_INDEX
-
-# RTL_SDR_PARSE_ONLY_NUM="$(sed 's/^[ \t]*//;s/[ \t]*$//' $RTL_SDR_FIND_INDEX)"
-# bashio::log.info "RTL-SDR clean index =" $RTL_SDR_PARSE_ONLY_NUM
-
-# DEVICE_INDEX="$(rtl_sdr -d 9999 |& grep "SN: ${RTL_SDR_SERIAL_NUM}" |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//')"
-# bashio::log.info "RTL-SDR complete command =" $DEVICE_INDEX
-
 # Start the listener and enter an endless loop
 bashio::log.blue "::::::::Starting RTL_433 with parameters::::::::"
 bashio::log.info "MQTT Host =" $MQTT_HOST
@@ -69,7 +37,7 @@ bashio::log.info "MQTT Password =" $(echo $MQTT_PASSWORD | sha256sum | cut -f1 -
 bashio::log.info "MQTT Topic =" $MQTT_TOPIC
 bashio::log.info "MQTT Retain =" $MQTT_RETAIN
 bashio::log.info "RTL-SDR Device Serial Number =" $RTL_SDR_SERIAL_NUM
-bashio::log.info "RTL-SDR Device Index =" $DEVICE_INDEX
+bashio::log.info "RTL-SDR Device Index =" $(rtl_sdr -d 9999 |& grep "SN: $RTL_SDR_SERIAL_NUM" |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//')
 bashio::log.info "PROTOCOL =" $PROTOCOL
 bashio::log.info "FREQUENCY =" $FREQUENCY
 bashio::log.info "Whitelist Enabled =" $WHITELIST_ENABLE
