@@ -7,6 +7,7 @@ MQTT_USERNAME="$(bashio::config 'mqtt_user')"
 MQTT_PASSWORD="$(bashio::config 'mqtt_password')"
 MQTT_TOPIC="$(bashio::config 'mqtt_topic')"
 MQTT_RETAIN="$(bashio::config 'mqtt_retain')"
+RTL_SDR_SERIAL_NUM="$(bashio::config 'rtl_sdr_serial_num')"
 PROTOCOL="$(bashio::config 'protocol')"
 FREQUENCY="$(bashio::config 'frequency')"
 UNITS="$(bashio::config 'units')"
@@ -33,6 +34,7 @@ bashio::log.info "MQTT User =" $MQTT_USERNAME
 bashio::log.info "MQTT Password =" $(echo $MQTT_PASSWORD | sha256sum | cut -f1 -d' ')
 bashio::log.info "MQTT Topic =" $MQTT_TOPIC
 bashio::log.info "MQTT Retain =" $MQTT_RETAIN
+bashio::log.info "RTL-SDR Device Serial Number =" $RTL_SDR_SERIAL_NUM
 bashio::log.info "PROTOCOL =" $PROTOCOL
 bashio::log.info "FREQUENCY =" $FREQUENCY
 bashio::log.info "Whitelist Enabled =" $WHITELIST_ENABLE
@@ -45,4 +47,14 @@ bashio::log.info "AUTO_DISCOVERY =" $AUTO_DISCOVERY
 bashio::log.info "DEBUG =" $DEBUG
 bashio::log.blue "::::::::rtl_433 running output::::::::"
 
-rtl_433 $FREQUENCY $PROTOCOL -C $UNITS  -F mqtt://$MQTT_HOST:$MQTT_PORT,user=$MQTT_USERNAME,pass=$MQTT_PASSWORD,retain=$MQTT_RETAIN,events=$MQTT_TOPIC/events,states=$MQTT_TOPIC/states,devices=$MQTT_TOPIC[/model][/id][/channel:A]  -M time:tz:local -M protocol -M level | /scripts/rtl_433_mqtt_hass.py
+DEVICE_INDEX="$(rtl_sdr -d 9999 |& grep "SN: ${RTL_SDR_SERIAL_NUM}" |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//')"
+
+# Check if device is found
+if [ -z "$DEVICE_INDEX" ]
+then
+      echo "Matching RTL-SDR Device with serial number \"$RTL_SDR_SERIAL_NUM\" not found"
+else
+      echo "Using RTL-SDR Device with serial number \"$RTL_SDR_SERIAL_NUM\" at index $DEVICE_INDEX"
+fi
+
+rtl_433 $FREQUENCY $PROTOCOL -C $UNITS  -F mqtt://$MQTT_HOST:$MQTT_PORT,user=$MQTT_USERNAME,pass=$MQTT_PASSWORD,retain=$MQTT_RETAIN,events=$MQTT_TOPIC/events,states=$MQTT_TOPIC/states,devices=$MQTT_TOPIC[/model][/id][/channel:A]  -M time:tz:local -M protocol -M level -d $DEVICE_INDEX | /scripts/rtl_433_mqtt_hass.py
