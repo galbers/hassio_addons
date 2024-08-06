@@ -30,7 +30,7 @@ WORKDIR /data
 COPY entry.sh rtl_433_mqtt_hass.py /scripts/
 # install rtl_433, rtl-sdr, libusb, mosquitto-clients, python3 py3-paho-mqtt; and deps of rtl_433_mqtt_hass.py.
 # make entry.sh and rtl_433_mqtt_hass.py executable.
-RUN apk add --no-cache rtl-sdr rtl_433 libusb mosquitto-clients python3 py3-paho-mqtt && \
+RUN apk add --no-cache rtl-sdr rtl_433 libusb mosquitto-clients python3 py3-paho-mqtt sed && \
     chmod +x /scripts/entry.sh && \
     chmod +x /scripts/rtl_433_mqtt_hass.py
 
