@@ -9,7 +9,7 @@ ENV MQTT_HOST=127.0.0.1 \
     MQTT_PASSWORD="" \
     MQTT_RETAIN=True \
     MQTT_TOPIC=rtl_433 \
-    FREQUENCY=433.92M \
+    FREQUENCY=915.00M \
     PROTOCOL="" \
     RTL_SDR_SERIAL_NUM="" \
     WHITELIST_ENABLE=False \
@@ -22,7 +22,7 @@ ENV MQTT_HOST=127.0.0.1 \
     LANG=C.UTF-8
 
 LABEL Maintainer="Jeffrey Stone" \
-Description="This image is used to start the RTL433 to HASS script that will monitor for 433Mhz devices and send the data to an MQTT server"
+Description="This image is used to start the RTL433 to HASS script that will monitor for 915Mhz devices and send the data to an MQTT server"
 
 WORKDIR /data
 

@@ -1,7 +1,7 @@
 {
   "name": "SDR to Home Assistant instance 2",
-  "version": "0.1.28",
-  "slug": "sdr2mqtt",
+  "version": "0.2.29",
+  "slug": "sdr2mqtt2",
   "description": "SDR/RTL Sensors to Home Assistant via MQTT with Autodiscovery",
   "url": "https://github.com/galbers/hassio_addons",
 
@@ -16,8 +16,8 @@
     "mqtt_password": "pass",
     "mqtt_topic": "rtl_433",
     "mqtt_retain" : "true",
-    "rtl_sdr_serial_num" : "433",
-    "frequency" : "-f 433.92M",
+    "rtl_sdr_serial_num" : "915",
+    "frequency" : "-f 915.00M",
     "protocol" : "-R 20 -R 112 -R 113 -R 11 -R 40 -R 41 -R 55 -R 74 -R 142 -R 78 -R 173 -R 219",
     "whitelist_enable": "false",
     "whitelist": "",
