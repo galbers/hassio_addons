@@ -52,7 +52,7 @@ DEVICE_INDEX="$(rtl_sdr -d 9999 |& grep "SN: ${RTL_SDR_SERIAL_NUM}" |& grep -o '
 # Check if device is found
 if [ -z "$DEVICE_INDEX" ]
 then
-      bashio::log.red "Matching RTL-SDR Device with serial number \"$RTL_SDR_SERIAL_NUM\" not found"
+      bashio::log.info "Matching RTL-SDR Device with serial number \"$RTL_SDR_SERIAL_NUM\" not found"
 else
       bashio::log.blue "Using RTL-SDR Device with serial number \"$RTL_SDR_SERIAL_NUM\" at index $DEVICE_INDEX"
 fi
