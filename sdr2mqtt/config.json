@@ -1,6 +1,6 @@
 {
   "name": "SDR to Home Assistant instance 1",
-  "version": "0.1.64",
+  "version": "0.1.65",
   "slug": "sdr2mqtt1",
   "description": "SDR/RTL Sensors to Home Assistant via MQTT with Autodiscovery",
   "url": "https://github.com/galbers/hassio_addons",
