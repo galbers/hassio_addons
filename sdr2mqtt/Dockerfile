@@ -11,7 +11,7 @@ ENV MQTT_HOST=127.0.0.1 \
     MQTT_TOPIC=rtl_433 \
     FREQUENCY=433.92M \
     PROTOCOL="" \
-    RTL_SDR_SERIAL_NUM="433" \
+    RTL_SDR_SERIAL_NUM=433 \
     WHITELIST_ENABLE=False \
     EXPIRE_AFTER=0 \
     WHITELIST="" \
@@ -37,4 +37,4 @@ RUN apk add --no-cache rtl-sdr rtl_433 libusb mosquitto-clients python3 py3-paho
 # Execute entry script
 # ENTRYPOINT [ "/scripts/entry.sh" ]
 # Shell form entry script
-ENTRYPOINT [ "bash", "-c", "/scripts/entry.sh $(rtl_sdr -d 9999 |& grep 'SN: ${RTL_SDR_SERIAL_NUM}' |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//')" ].
+ENTRYPOINT [ "bash", "-c", "/scripts/entry.sh $(rtl_sdr -d 9999 |& grep 'SN: $RTL_SDR_SERIAL_NUM' |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//')" ].
