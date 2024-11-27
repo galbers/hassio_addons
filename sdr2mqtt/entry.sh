@@ -19,8 +19,6 @@ AUTO_DISCOVERY="$(bashio::config 'auto_discovery')"
 DEBUG="$(bashio::config 'debug')"
 EXPIRE_AFTER="$(bashio::config 'expire_after')"
 
-DEVICE_INDEX=0
-
 # Exit immediately if a command exits with a non-zero status:
 set -e
 
@@ -51,11 +49,11 @@ bashio::log.info "DEBUG =" $DEBUG
 bashio::log.blue "::::::::rtl_433 running output::::::::"
 
 # Check if device is found
-if [ -z "$DEVICE_INDEX" ]
+if [ -z "$(rtl_sdr -d 9999 |& grep "SN: $RTL_SDR_SERIAL_NUM" |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//')" ]
 then
       bashio::log.info "Matching RTL-SDR Device with serial number \"$RTL_SDR_SERIAL_NUM\" not found"
 else
-      bashio::log.blue "Using RTL-SDR Device with serial number \"$RTL_SDR_SERIAL_NUM\" at index $DEVICE_INDEX"
+      bashio::log.blue "Using RTL-SDR Device with serial number \"$RTL_SDR_SERIAL_NUM\" at index $(rtl_sdr -d 9999 |& grep "SN: $RTL_SDR_SERIAL_NUM" |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//')"
 fi
 
 rtl_433 $FREQUENCY $PROTOCOL -C $UNITS  -F mqtt://$MQTT_HOST:$MQTT_PORT,user=$MQTT_USERNAME,pass=$MQTT_PASSWORD,retain=$MQTT_RETAIN,events=$MQTT_TOPIC/events,states=$MQTT_TOPIC/states,devices=$MQTT_TOPIC[/model][/id][/channel:A]  -M time:tz:local -M protocol -M level -d $(rtl_sdr -d 9999 |& grep "SN: $RTL_SDR_SERIAL_NUM" |& grep -o '^[^:]*' | sed 's/^[ \t]*//;s/[ \t]*$//') | /scripts/rtl_433_mqtt_hass.py
