@@ -40,19 +40,39 @@ find_device_index() {
     local serial_num="$1"
     local device_index
     
-    # Primary detection method
-    device_index=$(rtl_sdr -d 9999 2>&1 | grep -E "^[0-9]+:" | grep "SN: $serial_num" | cut -d: -f1 | head -1)
+    bashio::log.info "=== DEBUG: Device Detection Process ==="
+    bashio::log.info "Looking for device with serial number: '$serial_num'"
     
-    # Alternative method - sometimes the format is different
+    # Get raw rtl_sdr output for debugging
+    local rtl_output
+    rtl_output=$(rtl_sdr -d 9999 2>&1)
+    
+    # Primary detection method - handle format "  0:  Nooelec, NESDR SMArt v5, SN: 915"
+    bashio::log.info "Trying primary detection method..."
+    device_index=$(echo "$rtl_output" | grep "SN: $serial_num" | grep -E "^[[:space:]]*[0-9]+:" | sed 's/^[[:space:]]*\([0-9]\+\):.*/\1/' | head -1)
+    bashio::log.info "Primary method result: '$device_index'"
+    
+    # Alternative method - try without leading spaces
     if [ -z "$device_index" ]; then
-        device_index=$(rtl_sdr -d 9999 2>&1 | grep -B1 "SN: $serial_num" | grep -E "^[0-9]+:" | cut -d: -f1 | head -1)
+        bashio::log.info "Trying alternative detection method..."
+        device_index=$(echo "$rtl_output" | grep "SN: $serial_num" | grep -oE "^[0-9]+" | head -1)
+        bashio::log.info "Alternative method result: '$device_index'"
     fi
     
     # Third method - try case insensitive match
     if [ -z "$device_index" ]; then
-        device_index=$(rtl_sdr -d 9999 2>&1 | grep -iE "^[0-9]+:" | grep -i "SN: $serial_num" | cut -d: -f1 | head -1)
+        bashio::log.info "Trying case-insensitive detection method..."
+        device_index=$(echo "$rtl_output" | grep -i "SN: $serial_num" | grep -E "^[[:space:]]*[0-9]+:" | sed 's/^[[:space:]]*\([0-9]\+\):.*/\1/' | head -1)
+        bashio::log.info "Case-insensitive method result: '$device_index'"
     fi
     
+    # Show all serial numbers found for debugging
+    bashio::log.info "All serial numbers found in rtl_sdr output:"
+    echo "$rtl_output" | grep -i "SN:" | while IFS= read -r line; do
+        bashio::log.info "  Found: $line"
+    done
+    
+    bashio::log.info "=== END DEBUG: Device Detection Process ==="
     echo "$device_index"
 }
 
