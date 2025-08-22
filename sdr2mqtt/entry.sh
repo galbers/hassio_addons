@@ -97,6 +97,8 @@ bashio::log.info "DEBUG =" $DEBUG
 # List all available devices for debugging
 list_rtl_devices
 
+bashio::log.info "Device listing completed successfully"
+
 # Find the device index for the specified serial number
 bashio::log.info "About to call find_device_index function..."
 DEVICE_INDEX=$(find_device_index "$RTL_SDR_SERIAL_NUM")
