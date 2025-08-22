@@ -30,7 +30,7 @@ export LD_LIBRARY_PATH=/usr/local/lib64
 # Function to list all RTL-SDR devices for debugging
 list_rtl_devices() {
     bashio::log.info "=== Available RTL-SDR Devices ==="
-    rtl_sdr -d 9999 2>&1
+    rtl_sdr -d 9999 2>&1 || true
     bashio::log.info "================================="
 }
 
@@ -44,7 +44,7 @@ find_device_index() {
     
     # Get raw rtl_sdr output for debugging
     local rtl_output
-    rtl_output=$(rtl_sdr -d 9999 2>&1)
+    rtl_output=$(rtl_sdr -d 9999 2>&1 || true)
     bashio::log.info "Raw rtl_sdr output received, processing..."
     
     # Show all lines containing SN for debugging
