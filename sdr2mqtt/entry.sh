@@ -30,11 +30,7 @@ export LD_LIBRARY_PATH=/usr/local/lib64
 # Function to list all RTL-SDR devices for debugging
 list_rtl_devices() {
     bashio::log.info "=== Available RTL-SDR Devices ==="
-    local rtl_output
-    rtl_output=$(rtl_sdr -d 9999 2>&1)
-    echo "$rtl_output" | while IFS= read -r line; do
-        bashio::log.info "$line"
-    done
+    rtl_sdr -d 9999 2>&1
     bashio::log.info "================================="
 }
 
@@ -53,9 +49,9 @@ find_device_index() {
     
     # Show all lines containing SN for debugging
     bashio::log.info "All lines containing 'SN:':"
-    echo "$rtl_output" | grep "SN:" | while IFS= read -r line; do
-        bashio::log.info "  $line"
-    done
+    local sn_lines
+    sn_lines=$(echo "$rtl_output" | grep "SN:")
+    bashio::log.info "$sn_lines"
     
     # Simple method - find the line with our serial number and extract the device index
     bashio::log.info "Searching for serial number '$serial_num'..."
