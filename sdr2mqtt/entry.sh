@@ -30,7 +30,9 @@ export LD_LIBRARY_PATH=/usr/local/lib64
 # Function to list all RTL-SDR devices for debugging
 list_rtl_devices() {
     bashio::log.info "=== Available RTL-SDR Devices ==="
-    rtl_sdr -d 9999 2>&1 | while IFS= read -r line; do
+    local rtl_output
+    rtl_output=$(rtl_sdr -d 9999 2>&1)
+    echo "$rtl_output" | while IFS= read -r line; do
         bashio::log.info "$line"
     done
     bashio::log.info "================================="
