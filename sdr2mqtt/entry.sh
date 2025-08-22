@@ -94,10 +94,8 @@ bashio::log.info "DISCOVERY_INTERVAL =" $DISCOVERY_INTERVAL
 bashio::log.info "AUTO_DISCOVERY =" $AUTO_DISCOVERY
 bashio::log.info "DEBUG =" $DEBUG
 
-# List all available devices for debugging
-list_rtl_devices
-
-bashio::log.info "Device listing completed successfully"
+# Skip device listing and go straight to device detection
+bashio::log.info "Skipping device listing, proceeding directly to device detection..."
 
 # Find the device index for the specified serial number
 bashio::log.info "About to call find_device_index function..."
