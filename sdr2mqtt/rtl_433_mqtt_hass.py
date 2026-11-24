@@ -784,7 +784,12 @@ def rtl_433_bridge():
     """Run a MQTT Home Assistant auto discovery bridge for rtl_433."""
     logging.basicConfig(format='%(levelname)s:%(message)s', level=LOGLEVEL)
     
-    mqttc = mqtt.Client()
+    # paho-mqtt 2.x requires an explicit callback API version; VERSION1 keeps
+    # the callback signatures this script uses. Fall back for paho-mqtt 1.x.
+    try:
+        mqttc = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1)
+    except AttributeError:
+        mqttc = mqtt.Client()
     mqttc.username_pw_set(MQTT_USERNAME, MQTT_PASSWORD)
     mqttc.on_connect = mqtt_connect
     mqttc.on_disconnect = mqtt_disconnect

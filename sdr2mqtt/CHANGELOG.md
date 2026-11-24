@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.81]
 - Fix MQTT discovery configs that current Home Assistant rejects: UV index no longer claims the `irradiance` device class (HA has no UV class), illuminance sensors use `lx` instead of `lux`, PM device classes are lowercase (`pm25`/`pm10`), and `wind_max_m_s` is labelled km/h to match its conversion. Restores the Acurite Atlas UV and lux entities.
+- Add build.yaml declaring the Home Assistant base image (Alpine 3.21). Recent Supervisors no longer inject a default BUILD_FROM, so the image build failed with \"base name ($BUILD_FROM) should not be blank\".
+- Make the MQTT client construction compatible with paho-mqtt 2.x.
 
 ## [0.1.28]
 - Add configurable RTL-SDR target based on serial number of device

@@ -1,0 +1,8 @@
+# Base image per architecture. Recent Supervisors no longer inject a default
+# BUILD_FROM, so without this file the Dockerfile's FROM line is blank.
+build_from:
+  aarch64: ghcr.io/home-assistant/aarch64-base:3.21
+  amd64: ghcr.io/home-assistant/amd64-base:3.21
+  armhf: ghcr.io/home-assistant/armhf-base:3.21
+  armv7: ghcr.io/home-assistant/armv7-base:3.21
+  i386: ghcr.io/home-assistant/i386-base:3.21
