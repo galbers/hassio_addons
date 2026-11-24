@@ -1,6 +1,6 @@
 {
   "name": "SDR to Home Assistant instance 1",
-  "version": "0.1.82",
+  "version": "0.1.83",
   "slug": "sdr2mqtt1",
   "description": "SDR/RTL Sensors to Home Assistant via MQTT with Autodiscovery",
   "url": "https://github.com/galbers/hassio_addons",
@@ -25,6 +25,8 @@
     "units": "si",
     "discovery_prefix": "homeassistant",
     "discovery_interval": 600,
+    "discovery_min_seen": 2,
+    "discovery_seen_window": 3600,
     "auto_discovery": "true",
     "debug": "false"
   },
@@ -45,6 +47,8 @@
     "units": "str",
     "discovery_prefix": "str",
     "discovery_interval": "int",
+    "discovery_min_seen": "int",
+    "discovery_seen_window": "int",
     "auto_discovery": "bool",
     "debug": "bool"
    }

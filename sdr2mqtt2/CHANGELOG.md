@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.45]
+- New options `discovery_min_seen` (default 2) and `discovery_seen_window` (default 3600 s): a device must be received twice within the window before its Home Assistant discovery config is published, so corrupted packets that decode into random ids (common with Acurite 986) no longer create phantom devices.
+
 ## [0.2.44]
 - Channel sensor is now a plain diagnostic text sensor. The enum device class only allowed A/B/C, so devices with numeric channels (AmbientWeather WH31E 1-8) or 1R/2F (Acurite 986) logged "Ignoring invalid option" on every report.
 - Devices reporting id 0 (Acurite 986 fridge/freezer pairs) are qualified by channel so they no longer collide on the same unique_id. The old id-0 check compared a string to an integer and never ran.

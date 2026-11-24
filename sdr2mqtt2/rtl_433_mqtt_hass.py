@@ -33,11 +33,18 @@ AUTO_DISCOVERY = os.environ['AUTO_DISCOVERY']
 DEBUG = os.environ['DEBUG']
 EXPIRE_AFTER = os.environ['EXPIRE_AFTER']
 MQTT_RETAIN = os.environ['MQTT_RETAIN']
+# A device must be seen DISCOVERY_MIN_SEEN times within DISCOVERY_SEEN_WINDOW
+# seconds before its Home Assistant discovery config is published. Protocols
+# with weak checksums (e.g. Acurite-986) decode corrupted packets into random
+# ids; those phantoms are seen once and never again.
+DISCOVERY_MIN_SEEN = int(os.environ.get('DISCOVERY_MIN_SEEN', '2'))
+DISCOVERY_SEEN_WINDOW = int(os.environ.get('DISCOVERY_SEEN_WINDOW', '3600'))
 # Convert number environment variables to int
 MQTT_PORT = int(MQTT_PORT)
 DISCOVERY_INTERVAL = int(DISCOVERY_INTERVAL)
 
 discovery_timeouts = {}
+seen_counts = {}  # (model, instance, channel) -> [count, last_seen_epoch]
 
 whitelist_list = WHITELIST.split()
 blocked = []
@@ -770,6 +777,20 @@ def bridge_event_to_hass(mqttc, topic, data):
             logging.info("Device Id:{} Model: {} not in whitelist. Add to the Whitelist to create device in Home Assistant.".format(data['id'],data['model']))
         blocked.append('{}'.format(data['id']))
         return
+
+    # Hold discovery until the device has been seen enough times to be real.
+    now = time.time()
+    count, last_seen = seen_counts.get((model, instance, channel), (0, 0))
+    if now - last_seen > DISCOVERY_SEEN_WINDOW:
+        count = 0
+    count += 1
+    seen_counts[(model, instance, channel)] = (count, now)
+    if count < DISCOVERY_MIN_SEEN:
+        logging.info("Device {} id {} channel {} seen {}/{} times; holding Home Assistant discovery until confirmed.".format(model, instance, channel, count, DISCOVERY_MIN_SEEN))
+        return
+    if len(seen_counts) > 2000:
+        for stale in [k for k, (c, ts) in seen_counts.items() if now - ts > DISCOVERY_SEEN_WINDOW]:
+            del seen_counts[stale]
 
     if (auto_discovery == True):
         # Let's reduce the noise in the log and hide the duplicate notifications.

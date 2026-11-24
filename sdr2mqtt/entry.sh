@@ -13,6 +13,8 @@ FREQUENCY="$(bashio::config 'frequency')"
 UNITS="$(bashio::config 'units')"
 DISCOVERY_PREFIX="$(bashio::config 'discovery_prefix')"
 DISCOVERY_INTERVAL="$(bashio::config 'discovery_interval')"
+DISCOVERY_MIN_SEEN="$(bashio::config 'discovery_min_seen')"
+DISCOVERY_SEEN_WINDOW="$(bashio::config 'discovery_seen_window')"
 WHITELIST_ENABLE="$(bashio::config 'whitelist_enable')"
 WHITELIST="$(bashio::config 'whitelist')"
 AUTO_DISCOVERY="$(bashio::config 'auto_discovery')"
@@ -91,6 +93,8 @@ bashio::log.info "Expire After =" $EXPIRE_AFTER
 bashio::log.info "UNITS =" $UNITS
 bashio::log.info "DISCOVERY_PREFIX =" $DISCOVERY_PREFIX
 bashio::log.info "DISCOVERY_INTERVAL =" $DISCOVERY_INTERVAL
+bashio::log.info "DISCOVERY_MIN_SEEN =" $DISCOVERY_MIN_SEEN
+bashio::log.info "DISCOVERY_SEEN_WINDOW =" $DISCOVERY_SEEN_WINDOW
 bashio::log.info "AUTO_DISCOVERY =" $AUTO_DISCOVERY
 bashio::log.info "DEBUG =" $DEBUG
 

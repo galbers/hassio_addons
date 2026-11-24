@@ -25,6 +25,8 @@ protocol: ''
 units: 'si'
 discovery_prefix: homeassistant
 discovery_interval: 600
+discovery_min_seen: 2
+discovery_seen_window: 3600
 debug: false
 ```
 
@@ -76,6 +78,14 @@ Sets the meansurement units.
 ### Option: `discovery_prefix`
 
 The mqtt prefix for autodiscovery. `homeassistant` should work. If you use another autodiscovery may not work.
+
+### Option: `discovery_min_seen`
+
+A device must be received this many times (default `2`) within `discovery_seen_window` seconds before its Home Assistant discovery config is published. Corrupted packets on protocols with weak checksums (Acurite 986 for example) decode into random device ids that are seen once and never again; the gate keeps them out of Home Assistant. Set to `1` to publish on first sight.
+
+### Option: `discovery_seen_window`
+
+Seconds (default `3600`) within which the `discovery_min_seen` sightings must occur.
 
 ### Option: `discovery_interval`
 
