@@ -61,7 +61,7 @@ This determines what devices the software listens to. `-R 11 -R 40 -R 41 -R 55 -
 is the Accurite sensors. If the protocol is blank it will listen for all devices
 which may be noisy. Blank is the default with this addon. Consult the following readme for protocols. 
 
-For all possible protocols visit <https://github.com/galbers/hassio_addons/blob/main/acurite2mqtt/PROTOCOLS.md>
+For all possible protocols visit <https://github.com/galbers/hassio_addons/blob/main/sdr2mqtt/PROTOCOLS.md>
 
 ### Option: `expire_after`
 

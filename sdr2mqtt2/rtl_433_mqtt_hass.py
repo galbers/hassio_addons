@@ -84,9 +84,8 @@ mappings = {
         "device_type": "sensor",
         "object_suffix": "channel",
         "config": {
-            "device_class": "enum",
             "name": "device_channel",
-            "options": ["A", "B", "C"],
+            "icon": "mdi:radio-tower",
             "entity_category": "diagnostic",
             "value_template": "{{ value }}"
         }
@@ -149,7 +148,7 @@ mappings = {
     },
     "temperature_2_F": {
         "device_type": "sensor",
-        "object_suffix": "F",
+        "object_suffix": "F2",
         "config": {
             "device_class": "temperature",
             "state_class":"measurement",
@@ -185,9 +184,9 @@ mappings = {
 
     "moisture": {
         "device_type": "sensor",
-        "object_suffix": "H",
+        "object_suffix": "M",
         "config": {
-            "device_class": "humidity",
+            "device_class": "moisture",
             "state_class":"measurement",
             "name": "Moisture",
             "unit_of_measurement": "%",
@@ -274,7 +273,7 @@ mappings = {
             "state_class":"measurement",
             "name": "Wind Average",
             "unit_of_measurement": "km/h",
-            "value_template": "{{ float(value|float) * 3.6 | round(2) }}"
+            "value_template": "{{ (value|float * 3.6) | round(2) }}"
         }
     },
 
@@ -285,7 +284,7 @@ mappings = {
             "device_class": "wind_speed",
             "name": "Wind Speed",
             "unit_of_measurement": "km/h",
-            "value_template": "{{ float(value|float) * 3.6 }}"
+            "value_template": "{{ (value|float * 3.6) | round(2) }}"
         }
     },
 
@@ -321,7 +320,7 @@ mappings = {
             "state_class":"measurement",
             "name": "Wind max",
             "unit_of_measurement": "km/h",
-            "value_template": "{{ float(value|float) * 3.6 | round(2) }}"
+            "value_template": "{{ (value|float * 3.6) | round(2) }}"
         }
     },
 
@@ -333,7 +332,7 @@ mappings = {
             "state_class":"measurement",
             "name": "Gust Speed",
             "unit_of_measurement": "km/h",
-            "value_template": "{{ float(value|float) * 3.6 }}"
+            "value_template": "{{ (value|float * 3.6) | round(2) }}"
         }
     },
 
@@ -341,6 +340,7 @@ mappings = {
         "device_type": "sensor",
         "object_suffix": "WD",
         "config": {
+            "icon": "mdi:compass",
             "name": "Wind Direction",
             "unit_of_measurement": "°",
             "value_template": "{{ value|float }}"
@@ -548,9 +548,10 @@ mappings = {
     
     },
     "consumption": {
-        "device_type": "meter",
+        "device_type": "sensor",
         "object_suffix": "meter",
         "config": {
+            "state_class":"total_increasing",
             "device_class": "gas",
             "name": "meter",
             "unit_of_measurement": "ft³",
@@ -745,19 +746,21 @@ def bridge_event_to_hass(mqttc, topic, data):
         return
     model = sanitize(data["model"])
 
-    if "id" in data:
-        instance = str(data["id"])
-    else:
-        instance = 0
-        
-    if instance == 0:
-        logging.warning("Device Id:{} doesn't appear to be a actual device. Skipping..".format(data['id']))
-        return
-        
     if "channel" in data:
         channel = str(data["channel"])
     else:
         channel = 'A'
+
+    if "id" not in data:
+        logging.warning("Model {} reported no device id. Skipping..".format(data["model"]))
+        return
+    instance = str(data["id"])
+
+    # Some sensors (e.g. Acurite-986 fridge/freezer pairs) all report id 0 and
+    # differ only by channel. Qualify the instance with the channel so each
+    # one gets its own unique_id and HA device instead of colliding.
+    if instance == "0":
+        instance = "0_" + sanitize(channel)
 
     device = '{}-{}'.format(data['id'],data['model'])
      

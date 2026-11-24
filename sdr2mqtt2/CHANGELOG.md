@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.44]
+- Channel sensor is now a plain diagnostic text sensor. The enum device class only allowed A/B/C, so devices with numeric channels (AmbientWeather WH31E 1-8) or 1R/2F (Acurite 986) logged "Ignoring invalid option" on every report.
+- Devices reporting id 0 (Acurite 986 fridge/freezer pairs) are qualified by channel so they no longer collide on the same unique_id. The old id-0 check compared a string to an integer and never ran.
+- `consumption` now publishes a `sensor` with state_class `total_increasing`; "meter" is not a Home Assistant platform, so those discovery messages were ignored.
+- Wind speed conversions from m/s are rounded to 2 decimals (the previous template rounded the constant, not the product).
+- `moisture` uses the `moisture` device class and its own `M` suffix instead of colliding with humidity; `temperature_2_F` uses suffix `F2` instead of colliding with `temperature_F`; wind direction gets a compass icon.
+- Removed the unmaintained `acurite2mqtt` add-on from this repository; `sdr2mqtt` is a superset of it.
+
 ## [0.2.43]
 - Fix MQTT discovery configs that current Home Assistant rejects: UV index no longer claims the `irradiance` device class (HA has no UV class), illuminance sensors use `lx` instead of `lux`, PM device classes are lowercase (`pm25`/`pm10`), and `wind_max_m_s` is labelled km/h to match its conversion. Restores the Acurite Atlas UV and lux entities.
 - Add build.yaml declaring the Home Assistant base image (Alpine 3.21). Recent Supervisors no longer inject a default BUILD_FROM, so the image build failed with \"base name ($BUILD_FROM) should not be blank\".
