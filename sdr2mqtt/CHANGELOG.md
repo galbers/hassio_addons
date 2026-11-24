@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.81]
+- Fix MQTT discovery configs that current Home Assistant rejects: UV index no longer claims the `irradiance` device class (HA has no UV class), illuminance sensors use `lx` instead of `lux`, PM device classes are lowercase (`pm25`/`pm10`), and `wind_max_m_s` is labelled km/h to match its conversion. Restores the Acurite Atlas UV and lux entities.
+
 ## [0.1.28]
 - Add configurable RTL-SDR target based on serial number of device
 

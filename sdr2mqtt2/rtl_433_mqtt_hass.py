@@ -320,7 +320,7 @@ mappings = {
             "device_class": "wind_speed",
             "state_class":"measurement",
             "name": "Wind max",
-            "unit_of_measurement": "m/s",
+            "unit_of_measurement": "km/h",
             "value_template": "{{ float(value|float) * 3.6 | round(2) }}"
         }
     },
@@ -482,8 +482,8 @@ mappings = {
         "config": {
             "device_class": "illuminance",
             "state_class":"measurement",
-            "name": "Outside Luminancee",
-            "unit_of_measurement": "lux",
+            "name": "Outside Luminance",
+            "unit_of_measurement": "lx",
             "value_template": "{{ value|int }}"
         }
     },
@@ -493,8 +493,8 @@ mappings = {
         "object_suffix": "light_klx",
         "config": {
             "device_class": "illuminance",
-            "name": "Outside Luminancee",
-            "unit_of_measurement": "lux",
+            "name": "Outside Luminance",
+            "unit_of_measurement": "lx",
             "value_template": "{{ value|int }}"
         }
     },
@@ -506,7 +506,7 @@ mappings = {
             "device_class": "illuminance",
             "state_class":"measurement",
             "name": "Brightness",
-            "unit_of_measurement": "lux",
+            "unit_of_measurement": "lx",
             "value_template": "{{ value|int }}"
         }
     },
@@ -515,10 +515,10 @@ mappings = {
         "device_type": "sensor",
         "object_suffix": "uv",
         "config": {
-            "device_class": "irradiance",
             "state_class":"measurement",
             "name": "UV Index",
             "unit_of_measurement": "UV Index",
+            "icon": "mdi:sun-wireless",
             "value_template": "{{ value|int }}"
         }
     },
@@ -581,7 +581,7 @@ mappings = {
         "device_type": "sensor",
         "object_suffix": "PM25",
         "config": {
-            "device_class": "PM25",
+            "device_class": "pm25",
             "state_class":"measurement",
             "name": "PM 2.5",
             "unit_of_measurement": "µg/m³",
@@ -592,7 +592,7 @@ mappings = {
         "device_type": "sensor",
         "object_suffix": "PM25",
         "config": {
-            "device_class": "PM25",
+            "device_class": "pm25",
             "state_class":"measurement",
             "name": "PM 2.5",
             "unit_of_measurement": "µg/m³",
@@ -603,7 +603,7 @@ mappings = {
         "device_type": "sensor",
         "object_suffix": "PM10",
         "config": {
-            "device_class": "PM10",
+            "device_class": "pm10",
             "state_class":"measurement",
             "name": "PM 10",
             "unit_of_measurement": "µg/m³",
@@ -614,7 +614,7 @@ mappings = {
         "device_type": "sensor",
         "object_suffix": "PM10",
         "config": {
-            "device_class": "PM10",
+            "device_class": "pm10",
             "state_class":"measurement",
             "name": "Estimated PM 10",
             "unit_of_measurement": "µg/m³",
@@ -625,7 +625,7 @@ mappings = {
         "device_type": "sensor",
         "object_suffix": "PM10",
         "config": {
-            "device_class": "PM10",
+            "device_class": "pm10",
             "state_class":"measurement",
             "name": "PM 10",
             "unit_of_measurement": "µg/m³",
@@ -636,7 +636,7 @@ mappings = {
         "device_type": "sensor",
         "object_suffix": "PM10",
         "config": {
-            "device_class": "PM10",
+            "device_class": "pm10",
             "state_class":"measurement",
             "name": "Estimated PM 10",
             "unit_of_measurement": "µg/m³",
